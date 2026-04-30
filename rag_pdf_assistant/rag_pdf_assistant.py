@@ -36,7 +36,11 @@ class RagPDFAssistant:
     
     def __init__(self):
         self._validate_env()
-        self.llm = ChatGoogleGenerativeAI(model=MODEL_NAME, temperature=0)
+        self.llm = ChatGoogleGenerativeAI(
+            model=MODEL_NAME, 
+            temperature=0,
+            google_api_key=GEMINI_API_KEY
+        )
         self.splitter = RecursiveCharacterTextSplitter(
             chunk_size=CHUNK_SIZE, 
             chunk_overlap=CHUNK_OVERLAP
@@ -50,7 +54,7 @@ class RagPDFAssistant:
         # )
         self.embeddings = GoogleGenerativeAIEmbeddings(
             model="models/gemini-embedding-001",
-            api_key=GEMINI_API_KEY,
+            google_api_key=GEMINI_API_KEY,
         )
 
     def _validate_env(self) -> None:
