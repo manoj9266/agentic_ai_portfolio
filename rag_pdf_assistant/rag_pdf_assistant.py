@@ -120,8 +120,9 @@ def create_ui() -> gr.Blocks:
         assistant = RagPDFAssistant()
     except Exception as e:
         logger.error(e)
+        error_msg = str(e)
         return gr.Interface(
-            fn=lambda *args: f"Configuration Error: {str(e)}",
+            fn=lambda *args: f"Configuration Error: {error_msg}",
             inputs=gr.Textbox(),
             outputs=gr.Textbox(),
             title="📄 RAG PDF Assistant (Error)"
