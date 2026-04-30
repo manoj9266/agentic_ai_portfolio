@@ -1,0 +1,16 @@
+# Environment Variables
+.env
+
+# Python Pycache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.venv/
+env/
+.env_folder/
+
+# Gradio/Temp
+flagged/

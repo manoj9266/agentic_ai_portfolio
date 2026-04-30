@@ -1,0 +1,37 @@
+name: Deploy RAG Assistant to HuggingFace
+
+on:
+  push:
+    branches: [ master, main ]
+    # Only run this action when files inside the RAG folder change
+    paths:
+      - 'rag_pdf_assistant/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Push to HuggingFace Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          
+          # Clone the empty huggingface space
+          # Note: We will replace YOUR_HF_USERNAME and YOUR_SPACE_NAME later!
+          git clone https://user:$HF_TOKEN@huggingface.co/spaces/manojlabs/rag-pdf-assistant temp_space
+          
+          # Copy our RAG app files into the space
+          cp -r rag_pdf_assistant/* temp_space/
+          cd temp_space
+          
+          # HuggingFace specifically looks for a file named app.py to start
+          mv rag_pdf_assistant.py app.py
+          
+          # Push the changes to HuggingFace
+          git add .
+          git commit -m "Auto-deploy from GitHub Actions" || echo "No changes to commit"
+          git push
