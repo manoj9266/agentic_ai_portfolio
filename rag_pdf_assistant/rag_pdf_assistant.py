@@ -77,8 +77,10 @@ class RagPDFAssistant:
             return "No file provided."
             
         try:
-            logger.info(f"Loading document: {file.name}")
-            loader = PyPDFLoader(file.name)
+            # Gradio 4+ passes the filepath as a string by default
+            file_path = file if isinstance(file, str) else file.name
+            logger.info(f"Loading document: {file_path}")
+            loader = PyPDFLoader(file_path)
             docs = loader.load()
 
             if not docs:
