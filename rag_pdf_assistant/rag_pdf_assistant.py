@@ -36,6 +36,7 @@ class RagPDFAssistant:
     
     def __init__(self):
         self._validate_env()
+        self.rag_chains = {}
         self.llm = ChatGoogleGenerativeAI(
             model=MODEL_NAME, 
             temperature=0,
@@ -70,10 +71,10 @@ class RagPDFAssistant:
             ("human", "{question}")                                                   
         ])
 
-    def load_document(self, file) -> tuple[str, object]:
+    def load_document(self, file, request: gr.Request) -> str:
         """Loads, chunks, embeds, and builds the RAG chain for the uploaded PDF."""
         if file is None:
-            return "No file provided.", None
+            return "No file provided."
             
         try:
             logger.info(f"Loading document: {file.name}")
@@ -81,7 +82,7 @@ class RagPDFAssistant:
             docs = loader.load()
 
             if not docs:
-                return "The uploaded PDF appears to be empty or cannot be read.", None
+                return "The uploaded PDF appears to be empty or cannot be read."
             
             # Chunk document
             chunks = self.splitter.split_documents(docs)
@@ -100,14 +101,16 @@ class RagPDFAssistant:
                  | StrOutputParser()
             )
             logger.info("RAG chain successfully built.")
-            return f"✅ Successfully loaded and indexed {len(chunks)} chunks! You can now ask questions in the chat.", rag_chain
+            self.rag_chains[request.session_hash] = rag_chain
+            return f"✅ Successfully loaded and indexed {len(chunks)} chunks! You can now ask questions in the chat."
             
         except Exception as e:
             logger.error(f"Error loading document: {e}")
-            return f"❌ Error loading document: {str(e)}", None
+            return f"❌ Error loading document: {str(e)}"
 
-    def query(self, message: str, history: list, rag_chain) -> str:
-        """Queries the RAG chain. Signature matches Gradio ChatInterface with state."""
+    def query(self, message: str, history: list, request: gr.Request) -> str:
+        """Queries the RAG chain. Signature matches Gradio ChatInterface."""
+        rag_chain = self.rag_chains.get(request.session_hash)
         if not rag_chain:
             return "⚠️ Please upload and process a PDF document first."
             
@@ -133,9 +136,6 @@ def create_ui() -> gr.Blocks:
         )
 
     with gr.Blocks(title="📄 AI RAG PDF Assistant") as interface:
-        # Manage per-user state so that multiple users don't share the same RAG chain
-        chain_state = gr.State(None)
-        
         gr.Markdown("# 📄 RAG PDF Assistant\nUpload a PDF document, and then ask the AI questions about its contents!")
         
         with gr.Row():
@@ -148,14 +148,13 @@ def create_ui() -> gr.Blocks:
                 gr.Markdown("### 2. Chat with your Document")
                 chatbot = gr.ChatInterface(
                     fn=assistant.query,
-                    additional_inputs=[chain_state],
                 )
         
         # Link the file upload action to the backend
         pdf_input.upload(
             fn = assistant.load_document,
             inputs = [pdf_input],
-            outputs = [upload_status, chain_state]
+            outputs = [upload_status]
         )
         
     return interface
