@@ -39,3 +39,6 @@ A production-ready Retrieval-Augmented Generation (RAG) application that allows 
 - [Google Generative AI](https://ai.google.dev/) (Gemini) for both the LLM and Embeddings.
 - [FAISS](https://faiss.ai/) for the local vector database.
 - [Gradio](https://www.gradio.app/) for the web interface.
+
+---
+*This app is automatically deployed to HuggingFace Spaces via GitHub Actions.*
