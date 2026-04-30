@@ -13,3 +13,4 @@ except Exception as e:
     for m in genai_old.list_models():
         if 'embedContent' in m.supported_generation_methods:
             print(m.name)
+
