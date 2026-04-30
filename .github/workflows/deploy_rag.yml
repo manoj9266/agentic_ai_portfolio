@@ -27,18 +27,16 @@ jobs:
           cp -r rag_pdf_assistant/* temp_space/
           
           # Create the HuggingFace configuration README
-          cat << 'EOF' > temp_space/README.md
----
-title: Rag Pdf Assistant
-emoji: 📄
-colorFrom: blue
-colorTo: indigo
-sdk: gradio
-sdk_version: "5.5.0"
-app_file: app.py
-pinned: false
----
-EOF
+          echo "---" > temp_space/README.md
+          echo "title: Rag Pdf Assistant" >> temp_space/README.md
+          echo "emoji: 📄" >> temp_space/README.md
+          echo "colorFrom: blue" >> temp_space/README.md
+          echo "colorTo: indigo" >> temp_space/README.md
+          echo "sdk: gradio" >> temp_space/README.md
+          echo "sdk_version: \"5.5.0\"" >> temp_space/README.md
+          echo "app_file: app.py" >> temp_space/README.md
+          echo "pinned: false" >> temp_space/README.md
+          echo "---" >> temp_space/README.md
           
           echo "" >> temp_space/README.md
           cat rag_pdf_assistant/README.md >> temp_space/README.md
