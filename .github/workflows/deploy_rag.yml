@@ -33,7 +33,7 @@ jobs:
           echo "colorFrom: blue" >> temp_space/README.md
           echo "colorTo: indigo" >> temp_space/README.md
           echo "sdk: gradio" >> temp_space/README.md
-          echo "sdk_version: \"5.5.0\"" >> temp_space/README.md
+          echo "sdk_version: \"5.7.1\"" >> temp_space/README.md
           echo "app_file: app.py" >> temp_space/README.md
           echo "pinned: false" >> temp_space/README.md
           echo "---" >> temp_space/README.md
