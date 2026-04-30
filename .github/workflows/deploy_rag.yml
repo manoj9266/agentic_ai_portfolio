@@ -23,14 +23,23 @@ jobs:
           # Clone the empty huggingface space
           git clone https://user:$HF_TOKEN@huggingface.co/spaces/manojlabs/rag-pdf-assistant temp_space
           
-          # Save the HuggingFace configuration README
-          cp temp_space/README.md temp_hf_readme.md
-          
           # Copy our RAG app files into the space
           cp -r rag_pdf_assistant/* temp_space/
           
-          # Combine the HuggingFace config with our project README
-          cat temp_hf_readme.md > temp_space/README.md
+          # Create the HuggingFace configuration README
+          cat << 'EOF' > temp_space/README.md
+---
+title: Rag Pdf Assistant
+emoji: 📄
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: "5.5.0"
+app_file: app.py
+pinned: false
+---
+EOF
+          
           echo "" >> temp_space/README.md
           cat rag_pdf_assistant/README.md >> temp_space/README.md
           

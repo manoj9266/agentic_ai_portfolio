@@ -41,4 +41,4 @@ A production-ready Retrieval-Augmented Generation (RAG) application that allows 
 - [Gradio](https://www.gradio.app/) for the web interface.
 
 ---
-*This app is automatically deployed to HuggingFace Spaces via GitHub Actions.*
+*This application is automatically deployed to HuggingFace Spaces via GitHub Actions.*
