@@ -37,5 +37,5 @@ python rag_pdf_assistant.py
 
 Feel free to reach out to me regarding any of these projects or potential opportunities.
 
-- **GitHub:** [@manojkumar](https://github.com/manojkumar) *(Replace with your actual GitHub link)*
-- **LinkedIn:** [Manoj Kumar](https://linkedin.com/in/yourprofile) *(Replace with your actual LinkedIn link)*
+- **GitHub:** [@manojkumar](hhttps://github.com/manoj9266/agentic_ai_portfolio)
+- **LinkedIn:** [Manoj Kumar](https://linkedin.com/in/manoj-kumar-73299470/) 
