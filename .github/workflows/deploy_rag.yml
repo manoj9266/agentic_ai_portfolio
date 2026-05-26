@@ -6,6 +6,7 @@ on:
     # Only run this action when files inside the RAG folder change
     paths:
       - 'rag_pdf_assistant/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
